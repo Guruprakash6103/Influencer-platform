@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sponsor Dashboard - Statistics</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+            color: #333;
+            line-height: 1.6;
+            overflow-x: hidden; /* Prevent horizontal scrolling */
+        }
+
+        h1 {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 28px;
+            text-transform: uppercase;
+            color: #007bff;
+        }
+
+        nav {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            padding: 8px 16px;
+            transition: background-color 0.3s ease;
+            border-radius: 16px;
+        }
+
+        nav a:hover {
+            background-color: #0056b3;
+        }
+
+        .chart-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            padding: 20px;
+            max-width: 1200px;
+            margin: 20px auto;
+        }
+
+        .chart {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            text-align: center;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            margin-top: 10px;
+        }
+
+        @media (max-width: 768px) {
+            .chart-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="{{ url_for('sponsor_dashboard', spon_id=spon_id, name=name, password=password) }}">Profile</a>
+        <a href="{{ url_for('campaigns', spon_id=spon_id, name=name, password=password) }}">Campaigns</a>
+        <a href="{{ url_for('sponsor_find', spon_id=spon_id, name=name, password=password) }}">Find</a>
+        <a href="{{ url_for('sponsor_stats', spon_id=spon_id, name=name, password=password) }}">Stats</a>
+        <a href="{{ url_for('user_login') }}">Logout</a>
+    </nav>
+    <h1>Sponsor Dashboard - Statistics</h1>
+    <div class="chart-grid">
+        <div class="chart">
+            <h2>Campaign Budgets</h2>
+            <img src="data:image/png;base64,{{ campaign_chart }}" alt="Campaign Budgets">
+        </div>
+
+        <div class="chart">
+            <h2>Ad Payments</h2>
+            <img src="data:image/png;base64,{{ ad_chart }}" alt="Ad Payments">
+        </div>
+
+        <div class="chart">
+            <h2>Ads per Influencer</h2>
+            <img src="data:image/png;base64,{{ influencer_chart }}" alt="Ads per Influencer">
+        </div>
+    </div>
+</body>
+</html>

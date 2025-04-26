@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Dashboard - Statistics</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f6f9;
+            margin: 0;
+            padding: 0;
+        }
+        .nav {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #007bff;
+            padding: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+
+        .nav a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 16px;
+            margin: 0 15px;
+            padding: 10px 20px;
+            border-radius: 20px;
+            transition: background-color 0.3s ease;
+        }
+
+        .nav a:hover {
+            background-color: #0056b3;
+        }
+        .charts-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .chart {
+            background-color: #ffffff;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            box-sizing: border-box;
+            text-align: center;
+            transition: transform 0.3s ease;
+            width: 45%; /* Reduce width to fit two per row */
+            height: auto;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .chart:hover {
+            transform: translateY(-5px);
+        }
+
+        .chart img {
+            width: 100%;
+            max-height: 250px;
+            object-fit: contain;
+        }
+
+        .chart h2 {
+            color: #333;
+            font-size: 18px;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+
+        @media (max-width: 768px) {
+            .chart {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="nav">
+        <a href="{{ url_for('admin_dashboard') }}">Profile</a>
+        <a href="{{ url_for('admin_find') }}">Find</a>
+        <a href="{{ url_for('admin_stats') }}">Stats</a>
+        <a href="{{ url_for('frontpage') }}">Logout</a>
+    </div>
+    <div class="charts-container">
+        <div class="chart">
+            <h2>Sponsor Budgets</h2>
+            <img src="data:image/png;base64,{{ sponsor_chart }}" alt="Sponsor Budgets">
+        </div>
+
+        <div class="chart">
+            <h2>Influencer Followers</h2>
+            <img src="data:image/png;base64,{{ influencer_chart }}" alt="Influencer Followers">
+        </div>
+
+        <div class="chart">
+            <h2>Campaign Budgets</h2>
+            <img src="data:image/png;base64,{{ campaign_chart }}" alt="Campaign Budgets">
+        </div>
+
+        <div class="chart">
+            <h2>Ad Payments</h2>
+            <img src="data:image/png;base64,{{ ad_chart }}" alt="Ad Payments">
+        </div>
+
+        <div class="chart">
+            <h2>Flagged Users</h2>
+            <img src="data:image/png;base64,{{ flagged_chart }}" alt="Flagged Users">
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Ad Creating Page</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+            color: #333;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 800px;
+            margin: 30px auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #e0eafc, #cfdef3);
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+
+        h1 {
+            color: #007bff;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+            font-size: 32px;
+            font-weight: 700;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+
+        label {
+            font-size: 18px;
+            color: #555;
+        }
+
+        input[type="text"], input[type="number"], textarea {
+            width: 80%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+
+        textarea {
+            height: 100px;
+        }
+
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-size: 18px;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+            transform: translateY(-2px);
+        }
+
+        button:active {
+            background-color: #004494;
+            transform: translateY(0);
+        }
+
+        .go-back-button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-size: 18px;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            margin-top: 20px;
+        }
+
+        .go-back-button:hover {
+            background-color: #0056b3;
+            transform: translateY(-2px);
+        }
+
+        .go-back-button:active {
+            background-color: #004494;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>WELCOME TO THE AD CREATING PAGE</h1>
+
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <ul>
+                    {% for message in messages %}
+                        <li>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
+
+        <form action="" method="post">
+            <label for="name">Enter the ad name:</label>
+            <input type="text" id="name" name="name" required>
+
+            <label for="description">Enter the ad description:</label>
+            <textarea id="description" name="description" required></textarea>
+
+            <label for="terms">Enter terms of the ad:</label>
+            <textarea id="terms" name="terms" required></textarea>
+
+            <label for="messages">Enter messages:</label>
+            <textarea name="messages" id="messages" required></textarea>
+
+            <label for="payment">Enter payment:</label>
+            <input type="number" name="payment" id="payment" required>
+
+            <button type="submit">CREATE</button>
+        </form>
+
+        <button class="go-back-button" onclick="goBack()">Go Back</button>
+    </div>
+    <script>
+        function goBack() {
+            if (document.referrer) {
+                window.location.href = document.referrer;
+            } else {
+                window.history.back();
+            }
+        }
+    </script>
+</body>
+</html>

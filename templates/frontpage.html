@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Front Page</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f2f2f2, #d4e157);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            background: #ffffff;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            max-width: 600px;
+            width: 100%;
+        }
+
+        h1 {
+            color: #333;
+            font-size: 24px;
+            margin-bottom: 30px;
+            font-weight: 700;
+        }
+
+        form {
+            margin: 0;
+        }
+
+        input[type="button"] {
+            background-color: #007bff;
+            border: none;
+            color: white;
+            padding: 15px 30px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 18px;
+            margin: 10px 20px;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        input[type="button"]:hover {
+            background-color: #0056b3;
+            transform: translateY(-3px);
+        }
+
+        .button-secondary {
+            background-color: #28a745;
+        }
+
+        .button-secondary:hover {
+            background-color: #1e7e34;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>WELCOME TO MY INFLUENCER ENGAGEMENT & SPONSORSHIP CO-ORDINATION PLATFORM</h1>
+        <form>
+            Are you a user or admin?<br><br>
+            <input type="button" value="User" onclick="location.href='/user_login'" class="button-secondary"><br><br>
+            <input type="button" value="Admin" onclick="location.href='/admin'">
+        </form>
+    </div>
+</body>
+</html>

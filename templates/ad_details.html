@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Ads and Their Details</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            width: 80%;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #007bff;
+            margin-top: 30px;
+            font-size: 28px;
+            text-transform: uppercase;
+        }
+
+        .ad-section {
+            margin-top: 30px;
+        }
+
+        .ad-container {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .ad-box {
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 10px;
+            width: 300px; /* Increased width for better readability */
+            display: inline-block;
+            text-align: left;
+            cursor: pointer;
+            text-decoration: none;
+            color: inherit;
+            background-color: #fff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Added shadow for a card-like effect */
+        }
+
+        .ad-box h3 {
+            margin-top: 0;
+            color: #007bff;
+        }
+
+        .ad-box p {
+            margin: 5px 0;
+            color: #555;
+        }
+
+        .request-form button {
+            margin-top: 10px;
+            padding: 10px 20px;
+            font-size: 16px;
+            color: white;
+            background-color: #007bff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .request-form button:hover {
+            background-color: #0056b3;
+            transform: translateY(-2px); /* Slight lift effect on hover */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .request-form button:active {
+            background-color: #004494; /* Darker shade for active state */
+            transform: translateY(0); /* Reset lift effect */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .flash-message {
+            color: green;
+            font-weight: bold;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 16px;
+            color: white;
+            background-color: #007bff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .button:hover {
+            background-color: #0056b3;
+            transform: translateY(-2px); /* Slight lift effect on hover */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .button:active {
+            background-color: #004494; /* Darker shade for active state */
+            transform: translateY(0); /* Reset lift effect */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <center class="container">
+        <h1>ADS & THEIR DETAILS</h1>
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <div class="flash-message">
+                {% for message in messages %}
+                    <p>{{ message }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+        {% endwith %}
+        <div class="ad-section">
+            <h2>Pending Ads</h2>
+            <div class="ad-container">
+                {% for ad in ads if ad[9] == 'pending' %}
+                    <div class="ad-box">
+                        <h3>{{ ad[4] }}</h3>
+                        <p>AD ID: {{ ad[0] }}</p>
+                        <p>CAMPAIGN ID: {{ ad[1] }}</p>
+                        <p>SPONSOR ID: {{ ad[2] }}</p>
+                        <p>AD DESCRIPTION: {{ ad[5] }}</p>
+                        <p>AD PAYMENT: {{ ad[8] }}</p>
+                        <p>AD STATUS: {{ ad[9] }}</p>
+                        <form class="request-form" action="{{ url_for('request_ad',influ_id=influ_id) }}" method="post">
+                            <input type="hidden" name="ad_id" value="{{ ad[0] }}">
+                            <button type="button" onclick="submitRequestForm(this.form)">Request</button>
+                        </form>
+                    </div>
+                {% else %}
+                    <p>No pending ads available.</p>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="ad-section">
+            <h2>Requested Ads</h2>
+            <div class="ad-container">
+                {% for ad in ads if ad[9] == 'sponsor_requested' %}
+                    <div class="ad-box">
+                        <h3>{{ ad[4] }}</h3>
+                        <p>AD ID: {{ ad[0] }}</p>
+                        <p>CAMPAIGN ID: {{ ad[1] }}</p>
+                        <p>SPONSOR ID: {{ ad[2] }}</p>
+                        <p>AD DESCRIPTION: {{ ad[5] }}</p>
+                        <p>AD PAYMENT: {{ ad[8] }}</p>
+                        <p>AD STATUS: {{ ad[9] }}</p>
+                        <p>REQUESTED INFLUENCER: {{ ad[10] }}</p>
+                    </div>
+                {% else %}
+                    <p>No requested ads available.</p>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="ad-section">
+            <h2>Accepted Ads</h2>
+            <div class="ad-container">
+                {% for ad in ads if ad[9] == 'accepted' %}
+                    <div class="ad-box">
+                        <h3>{{ ad[4] }}</h3>
+                        <p>AD ID: {{ ad[0] }}</p>
+                        <p>CAMPAIGN ID: {{ ad[1] }}</p>
+                        <p>SPONSOR ID: {{ ad[2] }}</p>
+                        <p>AD DESCRIPTION: {{ ad[5] }}</p>
+                        <p>AD PAYMENT: {{ ad[8] }}</p>
+                        <p>AD STATUS: {{ ad[9] }}</p>
+                        <p>ACCEPTED INFLUENCER: {{ ad[10] }}</p>
+                    </div>
+                {% else %}
+                    <p>No accepted ads available.</p>
+                {% endfor %}
+            </div>
+        </div>
+
+        <button class="button" onclick="goBack()">Go Back</button>
+        <script>
+            function goBack() {
+                if (document.referrer) {
+                    window.location.href = document.referrer;
+                } else {
+                    window.history.back();
+                }
+            }
+
+            function submitRequestForm(form) {
+                if (confirm("Are you sure you want to send a request for this ad?")) {
+                    form.submit();
+                }
+            }
+        </script>
+    </center>
+</body>
+</html>

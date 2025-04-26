@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Influencer Registration</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(to right, #ff7e5f, #feb47b);
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            background: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            margin: 50px auto;
+            padding: 20px;
+            text-align: center;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 24px;
+            text-transform: uppercase;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        label {
+            font-size: 16px;
+            margin-bottom: 5px;
+            text-align: left;
+            width: 100%;
+        }
+
+        input[type="text"],
+        input[type="password"],
+        input[type="number"]{
+            font-size: 16px;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            margin-bottom: 15px;
+            width: calc(100% - 22px);
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #007bff;
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 18px;
+            margin: 10px 0;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .checkbox-group {
+            width: 100%;
+            text-align: left;
+        }
+
+        .checkbox-group label {
+            display: inline-block;
+            margin-left: 30px;
+            margin-right: 10px;
+            vertical-align: left;
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            margin-right: 10px;
+            vertical-align: middle;
+        }
+
+        .messages {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+            border-radius: 5px;
+            padding: 10px;
+            margin-bottom: 20px;
+            list-style: none;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Welcome to the Influencer Registration</h1>
+
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <ul class="messages">
+                    {% for message in messages %}
+                        <li>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
+
+        <form action="{{ url_for('influencer_dashboard', influ_id=0, name='none', password='none') }}" method="post">
+            <label for="name">Enter your company/individual name:</label>
+            <input type="text" id="name" name="name" required>
+
+            <label for="password">Enter your password:</label>
+            <input type="password" id="password" name="password" required>
+
+            <label for="category">Enter your category:</label>
+            <input type="text" id="category" name="category" required>
+
+            <label for="niche">Enter the campaign place:</label>
+            <input type="text" id="niche" name="niche" required>
+
+            <p>Enter social media platforms you have a presence on:</p>
+            <div class="checkbox-group">
+                <label for="youtube">
+                    <input type="checkbox" id="youtube" name="media" value="youtube"> Youtube
+                </label>
+                <label for="twitter">
+                    <input type="checkbox" id="twitter" name="media" value="twitter"> Twitter
+                </label>
+                <label for="insta">
+                    <input type="checkbox" id="insta" name="media" value="insta"> Instagram
+                </label>
+                <label for="facebook">
+                    <input type="checkbox" id="facebook" name="media" value="facebook"> Facebook
+                </label>
+            </div>
+
+            <label for="reach">Enter your followers count:</label>
+            <input type="number" id="reach" name="reach" required>
+
+            <button type="submit">REGISTER</button>
+        </form>
+    </div>
+</body>
+</html>

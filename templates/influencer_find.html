@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Influencer find page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            text-align: center;
+        }
+
+        h1 {
+            color: #4CAF50;
+        }
+
+        .link {
+            margin: 10px;
+            padding: 10px 20px;
+            text-decoration: none;
+            color: white;
+            background-color: #007BFF;
+            border-radius: 5px;
+        }
+        .link:hover {
+            background-color: #0056b3;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            background-color: #fff;
+            margin: 10px 0;
+            padding: 15px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .campaign-details {
+            flex-grow: 1;
+            text-align: left;
+            margin-right: 10px;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 10px;
+        }
+        button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            background-color: #4CAF50;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+        .back-button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #f44336;
+        }
+
+        .back-button:hover {
+            background-color: #d32f2f;
+        }
+        ul li, .link {
+            transition: transform 0.2s;
+        }
+
+        ul li:hover, .link:hover {
+            transform: scale(1.02);
+        }
+        ul li form {
+            display: inline;
+        }
+        ul li form button {
+            display: inline-block;
+            margin: 0;
+            margin-left: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <ul>
+                    {% for message in messages %}
+                        <li>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
+
+        <a href="{{ url_for('influencer_dashboard', influ_id=influ_id, name=name, password=password) }}" class="link">Profile</a>
+        <a href="{{ url_for('influencer_find', influ_id=influ_id,name=name,password=password) }}" class="link">Find</a>
+        <a href="{{ url_for('influencer_stats', influ_id=influ_id,name=name,password=password) }}" class="link">Stats</a>
+        <a href="{{ url_for('user_login') }}" class="link">Logout</a>
+
+        <h1>Campaigns</h1>
+        <ul>
+            {% for campaign in campaigns %}
+                <li>
+                    <div class="campaign-details">
+                        <strong>Name:</strong> {{ campaign[2] }}, <strong>Description:</strong> {{ campaign[3] }}
+                    </div>
+                    <div class="buttons">
+                        <form action="{{ url_for('influencer_view_campaign', camp_id=campaign[0]) }}" method="post">
+                            <button type="submit">VIEW</button>
+                        </form>
+                        <form action="{{ url_for('ads_of_campaign', camp_id=campaign[0], influ_id=influ_id, name=name,password=password) }}" method="post">
+                            <button type="submit">REQUEST</button>
+                        </form>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+
+        <button onclick="goBack()" class="back-button">Go Back</button>
+
+        <script>
+            function goBack() {
+                if (document.referrer) {
+                    window.location.href = document.referrer;
+                } else {
+                    window.history.back();
+                }
+            }
+        </script>
+    </div>
+</body>
+</html>

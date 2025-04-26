@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Influencer Dashboard</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: black;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        h1 {
+            color: white;
+            text-transform: uppercase;
+            margin-top: 30px;
+            font-size: 28px;
+            text-align: center;
+        }
+        h2 {
+            color: gray;
+            font-size: 1.8em;
+            text-transform: uppercase;
+            text-align: center;
+            margin: 30px 0;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+        li {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 15px;
+        }
+        nav {
+            background-color: turquoise;
+            color: white;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        nav a {
+            color: white;
+            text-decoration: none;
+            padding: 8px 16px;
+            transition: background-color 0.3s ease;
+        }
+        nav a:hover {
+            background-color: #0056b3;
+            border-radius: 100px;
+        }
+        form {
+            display: inline;
+        }
+        .button {
+            border: none;
+            color: white;
+            padding: 12px 24px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+        .button.view {
+            background-color: brown;
+        }
+        .button.view:hover {
+            background-color: #6d4c41;
+            transform: translateY(-2px);
+        }
+        .button.view:active {
+            background-color: #4f3e3a;
+            transform: translateY(0);
+        }
+        .button.accept {
+            background-color: green;
+        }
+        .button.accept:hover {
+            background-color: #388e3c;
+            transform: translateY(-2px);
+        }
+        .button.accept:active {
+            background-color: #2c6d2f;
+            transform: translateY(0);
+        }
+        .button.reject {
+            background-color: red;
+        }
+        .button.reject:hover {
+            background-color: #c62828;
+            transform: translateY(-2px);
+        }
+        .button.reject:active {
+            background-color: #a81d1d;
+            transform: translateY(0);
+        }
+        .link {
+            display: inline-block;
+            padding: 12px 24px;
+            color: #ffffff;
+            background-color: #e74c3c;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 8px;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            margin: 0 10px;
+        }
+        .link:hover {
+            background-color: #c0392b;
+            transform: translateY(-2px);
+        }
+        .link:active {
+            background-color: #a03226;
+            transform: translateY(0);
+        }
+        .headline-container {
+            text-align: center;
+            background: purple;
+            padding: 20px 50px;
+            border-radius: 8px;
+            box-shadow: 0 4px 100px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+        }
+        .ads-container, .campaigns-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+        }
+        .ad-box, .campaign-box {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            flex: 1 1 calc(33% - 30px); /* Adjusts to 3 boxes per row */
+            max-width: calc(33% - 30px); /* Adjusts to 3 boxes per row */
+            box-sizing: border-box;
+        }
+    </style>
+</head>
+<body>
+        <nav>
+            <a href="{{ url_for('influencer_dashboard', influ_id=influ_id, name=name, password=password) }}" >Profile</a>
+            <a href="{{ url_for('influencer_find', influ_id=influ_id,name=name,password=password) }}" >Find</a>
+            <a href="{{ url_for('influencer_stats', influ_id=influ_id,name=name,password=password) }}" >Stats</a>
+            <a href="{{ url_for('user_login') }}" >Logout</a>
+        </nav>
+        <center><h1>Welcome Influencer {{ name }}</h1></center>
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <ul>
+                {% for message in messages %}
+                    <li>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+        {% endwith %}
+
+        <h2>Active Campaigns</h2>
+        <div class="campaigns-container">
+            {% for campaign in campaigns if campaign[7] == 'public' %}
+                <div class="campaign-box">
+                    <strong>Name:</strong> {{ campaign[2] }}<br>
+                    <strong>Description:</strong> {{ campaign[3] }}<br>
+                    <form action="{{ url_for('influencer_view_campaign', camp_id=campaign[0]) }}" method="post">
+                        <button type="submit" class="button view">View</button>
+                    </form>
+                </div>
+            {% endfor %}
+        </div>
+
+        <h2>Requested Ads with Campaign Details</h2>
+        <div class="ads-container">
+            {% for ad in requested_ads %}
+                <div class="ad-box">
+                    <h3>Ad Details</h3>
+                    <strong>Ad Title:</strong> {{ ad[1] }}<br>
+                    <strong>Ad Description:</strong> {{ ad[2] }}<br>
+                    <strong>Ad Payment:</strong> {{ ad[3] }}<br>
+                    <strong>Ad Status:</strong> {{ ad[4] }}<br>
+                    <h3>Campaign Details</h3>
+                    <strong>Campaign Name:</strong> {{ ad[6] }}<br>
+                    <strong>Campaign Description:</strong> {{ ad[7] }}<br>
+                    <form action="{{ url_for('influencer_view_campaign', camp_id=ad[5]) }}" method="post" style="display:inline;">
+                        <button type="submit" class="button view">View</button>
+                    </form>
+                    <form action="{{ url_for('accept_ad', ad_id=ad[0]) }}" method="post" style="display:inline;">
+                        <button type="submit" class="button accept">Accept</button>
+                    </form>
+                    <form action="{{ url_for('reject_ad', ad_id=ad[0]) }}" method="post" style="display:inline;">
+                        <button type="submit" class="button reject">Reject</button>
+                    </form>
+                </div>
+            {% else %}
+                <p>No requested ads available.</p>
+            {% endfor %}
+        </div>
+</body>
+</html>

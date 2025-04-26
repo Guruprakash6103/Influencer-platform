@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Campaign Details</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f7f9fa;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        h1 {
+            color: #636e72;
+            font-size: 2em;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+        }
+        p {
+            font-size: 1.1em;
+            margin: 10px 0;
+        }
+        .button {
+            background-color: #4CAF50;
+            border: none;
+            color: white;
+            padding: 12px 24px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 20px 0;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+        .button:hover {
+            background-color: #45a049;
+            transform: translateY(-2px);
+        }
+        .button:active {
+            background-color: #388e3c;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Campaign Details</h1>
+        {% if campaign %}
+            <p><strong>Campaign Id:</strong> {{ campaign[0] }}</p>
+            <p><strong>Sponsor Id:</strong> {{ campaign[1] }}</p>
+            <p><strong>Name:</strong> {{ campaign[2] }}</p>
+            <p><strong>Description:</strong> {{ campaign[3] }}</p>
+            <p><strong>Start Date:</strong> {{ campaign[4] }}</p>
+            <p><strong>End Date:</strong> {{ campaign[5] }}</p>
+            <p><strong>Budget:</strong> {{ campaign[6] }}</p>
+            <p><strong>Visibility:</strong> {{ campaign[7] }}</p>
+            <p><strong>Goals:</strong> {{ campaign[8] }}</p>
+            <p><strong>Niche:</strong> {{ campaign[9] }}</p>
+            <p><strong>Status:</strong> {{ campaign[10] }}</p>
+        {% else %}
+            <p>No campaign found.</p>
+        {% endif %}
+
+        <button class="button" onclick="goBack()">Go Back</button>
+        <script>
+            function goBack() {
+                if (document.referrer) {
+                    window.location.href = document.referrer;
+                } else {
+                    window.history.back();
+                }
+            }
+        </script>
+    </div>
+</body>
+</html>

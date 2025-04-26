@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sponsor Dashboard</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: black;
+            color: #333;
+        }
+
+        .nav-links {
+            background-color: #007bff;
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: white;
+            font-size: 18px;
+            margin: 0 10px;
+            padding: 10px 15px;
+            border-radius: 8px;
+            display: inline-block;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            background-color: #0056b3;
+            color: white;
+        }
+
+        h1 {
+            color: #007bff;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+            font-size: 32px;
+            font-weight: 700;
+            text-align: center;
+        }
+
+        h2 {
+            color: white;
+            font-size: 28px;
+            margin-bottom: 2px;
+            text-align: center;
+        }
+        .flex-container {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 30px;
+            list-style: none;
+            padding: 50px;
+        }
+        .box {
+            background: #f9f9f9;
+            width: 30px;
+            padding: 20px;
+            border-radius: 20px;
+            box-shadow: 0 2px 100px rgba(0, 0, 0, 0.1);
+            text-align: left;
+            flex: 1 1 300px;
+            margin-bottom: 20px;
+        }
+        .box h3 {
+            color: #555;
+            margin-top: 0;
+        }
+
+        .box strong {
+            color: #444;
+        }
+
+        button {
+            border: none;
+            border-radius: 8px;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            margin: 5px;
+        }
+
+        .button-view {
+            background-color: #d35400;
+            color: white;
+        }
+
+        .button-view:hover {
+            background-color: #c0392b;
+            transform: translateY(-2px);
+        }
+
+        .button-view:active {
+            background-color: #a03226;
+            transform: translateY(0);
+        }
+
+        .button-accept {
+            background-color: #2ecc71;
+            color: white;
+        }
+
+        .button-accept:hover {
+            background-color: #27ae60;
+            transform: translateY(-2px);
+        }
+
+        .button-accept:active {
+            background-color: #1e8449;
+            transform: translateY(0);
+        }
+
+        .button-reject {
+            background-color: #e74c3c;
+            color: white;
+        }
+
+        .button-reject:hover {
+            background-color: #c0392b;
+            transform: translateY(-2px);
+        }
+
+        .button-reject:active {
+            background-color: #a03226;
+            transform: translateY(0);
+        }
+
+        .button-group {
+            text-align: center;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+        <div class="nav-links">
+            <a href="{{ url_for('sponsor_dashboard', spon_id=spon_id,name=name,password=password) }}">Profile</a>
+            <a href="{{ url_for('campaigns', spon_id=spon_id,name=name,password=password) }}">Campaigns</a>
+            <a href="{{ url_for('sponsor_find',spon_id=spon_id,name=name,password=password) }}">Find</a>
+            <a href="{{ url_for('sponsor_stats',spon_id=spon_id,name=name,password=password) }}">Stats</a>
+            <a href="{{ url_for('user_login') }}">Logout</a>
+        </div>
+
+        <h1>Welcome Sponsor {{ name }}</h1>
+
+        <h2>Active Campaigns</h2>
+        <ul class="flex-container">
+            {% for campaign in campaigns %}
+                <li class="box">
+                    <strong>Name:</strong> {{ campaign[2] }}<br>
+                    <strong>Description:</strong> {{ campaign[3] }}<br>
+                    <div class="button-group">
+                        <form action="{{ url_for('view_campaign', camp_id=campaign[0]) }}" method="post" style="display:inline;">
+                            <button type="submit" class="button-view">View</button>
+                        </form>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+
+        <h2>Requested Ads with Campaign Details</h2>
+        <ul class="flex-container">
+            {% for ad in requested_ads %}
+                <li class="box">
+                    <h3>Ad Details</h3>
+                    <strong>Ad Title:</strong> {{ ad[1] }}<br>
+                    <strong>Ad Description:</strong> {{ ad[2] }}<br>
+                    <strong>Ad Payment:</strong> {{ ad[3] }}<br>
+                    <strong>Ad Status:</strong> {{ ad[4] }}<br>
+                    <h3>Campaign Details</h3>
+                    <strong>Campaign Name:</strong> {{ ad[6] }}<br>
+                    <strong>Campaign Description:</strong> {{ ad[7] }}<br>
+                    <div class="button-group">
+                        <form action="{{ url_for('influencer_view_campaign', camp_id=ad[5]) }}" method="post" style="display:inline;">
+                            <button type="submit" class="button-view">View</button>
+                        </form>
+                        <form action="{{ url_for('sponsor_accept_ad', ad_id=ad[0]) }}" method="post" style="display:inline;">
+                            <button type="submit" class="button-accept">Accept</button>
+                        </form>
+                        <form action="{{ url_for('sponsor_reject_ad', ad_id=ad[0]) }}" method="post" style="display:inline;">
+                            <button type="submit" class="button-reject">Reject</button>
+                        </form>
+                    </div>
+                </li>
+            {% else %}
+                <p>No requested ads available.</p>
+            {% endfor %}
+        </ul>
+
+</body>
+</html>

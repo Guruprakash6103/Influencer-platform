@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Campaigns</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        h1 {
+            color: #007bff;
+            text-transform: uppercase;
+            margin-top: 30px;
+            font-size: 28px;
+            text-align: center;
+        }
+
+        nav {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            padding: 8px 16px;
+            transition: background-color 0.3s ease;
+        }
+
+        nav a:hover {
+            background-color: #0056b3;
+            border-radius: 100px;
+        }
+        .campaign-container {
+            text-align: center;
+        }
+
+        .campaign-box {
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 10px;
+            width: 200px;
+            display: inline-block;
+            text-align: left;
+            background-color: #fff;
+            color: #333;
+            text-decoration: none;
+        }
+
+        .campaign-box h3 {
+            color: #007bff;
+            margin-top: 0;
+        }
+
+        .campaign-box p {
+            margin: 5px 0;
+        }
+
+        .button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 16px;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .button:hover {
+            background-color: #0056b3;
+            transform: translateY(-2px);
+        }
+
+        .button:active {
+            background-color: #004494;
+            transform: translateY(0);
+        }
+
+        .add-campaign {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #28a745;
+            color: white;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            text-decoration: none;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .add-campaign:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <nav>
+            <a href="{{ url_for('sponsor_dashboard', spon_id=spon_id,name=name,password=password) }}">Profile</a>
+            <a href="{{ url_for('campaigns', spon_id=spon_id,name=name,password=password) }}">Campaigns</a>
+            <a href="{{ url_for('sponsor_find',spon_id=spon_id,name=name,password=password) }}">Find</a>
+            <a href="{{ url_for('sponsor_stats',spon_id=spon_id,name=name,password=password) }}">Stats</a>
+            <a href="{{ url_for('user_login') }}">Logout</a>
+        </nav>
+        <h1>WELCOME SPONSOR {{ name | upper }}</h1>
+        <div class="campaign-container">
+            {% for campaign in campaigns %}
+                <a href="{{ url_for('view_campaign', camp_id=campaign[0]) }}" class="campaign-box">
+                    <div>
+                        <h3>{{ campaign[2] }}</h3>
+                        <p>{{ campaign[3] }}</p>
+                        <p>Start Date: {{ campaign[4] }}</p>
+                        <p>End Date: {{ campaign[5] }}</p>
+                        <p>Budget: {{ campaign[6] }}</p>
+                    </div>
+                </a>
+            {% endfor %}
+            <a href="{{ url_for('create_campaigns',spon_id=spon_id) }}" class="add-campaign">+</a><br><br>
+        </div>
+
+    </div>
+<br><br>
+       <center>
+        <button class="button" onclick="goBack()">Go Back</button>
+       </center>
+    <script>
+        function goBack() {
+            if (document.referrer) {
+                window.location.href = document.referrer;
+            } else {
+                window.history.back();
+            }
+        }
+    </script>
+</body>
+</html>

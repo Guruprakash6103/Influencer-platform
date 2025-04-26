@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin find page</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f6f9;
+            margin: 0;
+            padding: 0;
+        }
+        h1 {
+            color: #333;
+            font-size: 36px;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            text-align: center;
+        }
+        h2 {
+            margin-top: 40px;
+            color: #555;
+            font-size: 24px;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            text-align: center;
+        }
+        .nav {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #007bff;
+            padding: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+        .nav a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 16px;
+            margin: 0 15px;
+            padding: 10px 20px;
+            border-radius: 20px;
+            transition: background-color 0.3s ease;
+        }
+        .nav a:hover {
+            background-color: #0056b3;
+        }
+        .messages {
+            list-style-type: none;
+            padding: 0;
+            margin: 20px 0;
+            text-align: center;
+        }
+        .messages li {
+            color: #dc3545;
+            margin-bottom: 10px;
+            font-weight: bold;
+            background-color: #f8d7da;
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            display: inline-block;
+        }
+        .lists-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        li {
+            background-color: #ffffff;
+            width: 350px;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        li p {
+            margin: 0;
+            color: #333;
+            font-size: 16px;
+        }
+        .button {
+            background-color: #28a745;
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            font-size: 16px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+        .button:hover {
+            background-color: #218838;
+            transform: translateY(-2px);
+        }
+        .button-flag {
+            background-color: #ffc107;
+        }
+        .button-flag:hover {
+            background-color: #e0a800;
+        }
+        @media (max-width: 768px) {
+            li {
+                width: 100%;
+            }
+            .nav {
+                flex-direction: column;
+            }
+            .nav a {
+                margin: 5px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+        <div class="nav">
+            <a href="{{ url_for('admin_dashboard') }}">Profile</a>
+            <a href="{{ url_for('admin_find') }}">Find</a>
+            <a href="{{ url_for('admin_stats') }}">Stats</a>
+            <a href="{{ url_for('frontpage') }}">Logout</a>
+        </div>
+        <h1>Welcome {{ name }}</h1>
+
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                    <li>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+        {% endwith %}
+
+        <h2>Sponsors</h2>
+        <ul class="lists-container">
+            {% for sponsor in sponsors %}
+                <li>
+                    <div>
+                        <p><strong>ID:</strong> {{ sponsor[0] }}</p>
+                        <p><strong>Name:</strong> {{ sponsor[1] }}</p>
+                    </div>
+                    <div>
+                        <form action="{{ url_for('admin_view_sponsor', spon_id=sponsor[0]) }}" style="display:inline;">
+                            <button type="submit" class="button">View</button>
+                        </form>
+                        <form action="{{ url_for('flag_sponsor', spon_id=sponsor[0]) }}" style="display:inline;">
+                            <button type="submit" class="button button-flag">Flag</button>
+                        </form>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+
+        <h2>Campaigns</h2>
+        <ul class="lists-container">
+            {% for campaign in campaigns %}
+                <li>
+                    <div>
+                        <p><strong>Name:</strong> {{ campaign[2] }}</p>
+                        <p><strong>Description:</strong> {{ campaign[3] }}</p>
+                    </div>
+                    <div>
+                        <form action="{{ url_for('influencer_view_campaign', camp_id=campaign[0]) }}" method="post" style="display:inline;">
+                            <button type="submit" class="button">View</button>
+                        </form>
+                        <form action="{{ url_for('flag_campaign', camp_id=campaign[0]) }}" style="display:inline;">
+                            <button type="submit" class="button button-flag">Flag</button>
+                        </form>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+
+        <h2>Influencers</h2>
+        <ul class="lists-container">
+            {% for influencer in influencers %}
+                <li>
+                    <div>
+                        <p><strong>ID:</strong> {{ influencer[0] }}</p>
+                        <p><strong>Name:</strong> {{ influencer[1] }}</p>
+                    </div>
+                    <div>
+                        <form action="{{ url_for('admin_view_influencer', influ_id=influencer[0]) }}" style="display:inline;">
+                            <button type="submit" class="button">View</button>
+                        </form>
+                        <form action="{{ url_for('flag_influencer', influ_id=influencer[0]) }}" style="display:inline;">
+                            <button type="submit" class="button button-flag">Flag</button>
+                        </form>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+</body>
+</html>

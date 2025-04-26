@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Influencer Details</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .container {
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            width: 90%;
+            max-width: 500px;
+            text-align: center;
+        }
+        h1 {
+            color: #333;
+            font-size: 32px;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+        }
+        p {
+            color: #555;
+            font-size: 18px;
+            margin: 10px 0;
+            line-height: 1.6;
+        }
+        button {
+            background-color: #007bff;
+            border: none;
+            color: white;
+            padding: 12px 24px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            margin-top: 20px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+            transform: translateY(-2px);
+        }
+        @media (max-width: 480px) {
+            .container {
+                padding: 20px;
+            }
+
+            p {
+                font-size: 16px;
+            }
+
+            button {
+                padding: 10px 20px;
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Influencer Details</h1>
+        {% if influencer %}
+            <p><strong>Influencer ID:</strong> {{ influencer[0] }}</p>
+            <p><strong>Name:</strong> {{ influencer[1] }}</p>
+            <p><strong>Category:</strong> {{ influencer[3] }}</p>
+            <p><strong>Niche:</strong> {{ influencer[4] }}</p>
+            <p><strong>Media:</strong> {{ influencer[5] }}</p>
+            <p><strong>Followers:</strong> {{ influencer[6] }}</p>
+        {% else %}
+            <p>No influencer found.</p>
+        {% endif %}
+
+        <button onclick="goBack()">Go Back</button>
+        <script>
+            function goBack() {
+                if (document.referrer) {
+                    window.location.href = document.referrer;
+                } else {
+                    window.history.back();
+                }
+            }
+        </script>
+    </div>
+</body>
+</html>

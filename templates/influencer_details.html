@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Influencer Details</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+            color: #333;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            text-align: center;
+        }
+
+        .title {
+            text-transform: uppercase;
+            color: #007bff;
+            margin-top: 30px;
+            font-size: 28px;
+        }
+
+        .details {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            width: 90%;
+        }
+
+        .details p {
+            font-size: 18px;
+            margin: 10px 0;
+            color: #555;
+        }
+
+        .button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 16px;
+            color: white;
+            background-color: #007bff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .button:hover {
+            background-color: #0056b3;
+            transform: translateY(-2px); /* Slight lift effect on hover */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .button:active {
+            background-color: #004494; /* Darker shade for active state */
+            transform: translateY(0); /* Reset lift effect */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <center class="container">
+        <h1 class="title">Influencer Details:</h1>
+        <div class="details">
+            {% if influencer %}
+                <p>ID: {{ influencer[0] }}</p>
+                <p>Name: {{ influencer[1] }}</p>
+                <p>Category: {{ influencer[3] }}</p>
+                <p>Niche: {{ influencer[4] }}</p>
+                <p>Media: {{ influencer[5] }}</p>
+                <p>Followers: {{ influencer[6] }}</p>
+            {% else %}
+                <p>No influencer found.</p>
+            {% endif %}
+        </div>
+        <button class="button" onclick="goBack()">Go Back</button>
+        <script>
+            function goBack() {
+                if (document.referrer) {
+                   window.location.href = document.referrer;
+               } else {
+                   window.history.back();
+               }
+            }
+        </script>
+    </center>
+</body>
+</html>
